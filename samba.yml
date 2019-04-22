@@ -1,0 +1,56 @@
+---
+- hosts: node2.example.com
+  user: root
+  tasks:
+    - name: installing smb package
+      yum:      
+        pkg: ['samba', 'samba-common', 'samba-client', 'cifs-utils'] 
+        state: installed
+
+
+
+
+    - name: copying smb.conf file
+      copy:
+       src: smb.conf
+       dest: /etc/samba/
+
+    - name: adding samba user
+      user:
+         name: pokemon
+         state: present
+    
+    - name: start service
+      service:
+         name: smb
+         state: started
+         enabled: yes
+
+    - name: making samba direcory in /
+      file:
+         path: /samba
+         state: directory
+
+    - name: changing fcontext, firewall add & reload 
+      command: "{{ item }}"
+      with_items:
+        - semanage fcontext -at samba_share_t "/samba(/.*)?"
+        - restorecon /samba
+        - firewall-cmd --permanent --add-service=samba
+        - firewall-cmd --reload
+   
+
+
+  
+
+
+
+
+
+    
+
+
+
+    
+        
+                    

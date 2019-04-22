@@ -1,0 +1,33 @@
+---
+    - hosts: node2.example.com
+      user: root
+      vars:
+       conf_file: /etc/httpd/conf/
+      tasks:
+       - name: installing httpd package
+         yum:
+           name: httpd 
+           state: present
+         tags: 
+           - start
+       - name: sharing conf file from server
+         copy:
+          src: /root/ansibletest/httpd.conf
+          dest: "{{ conf_file }}"
+         tags:
+           - stop
+         notify: restart httpd       
+
+       - name: sharing index.html
+         copy:
+          src: /root/ansibletest/index.html
+          dest: /var/www/html
+           
+
+
+      handlers: 
+       - name: restart httpd
+         service:
+           name: httpd 
+           state: started
+           enabled: yes

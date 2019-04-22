@@ -1,0 +1,10 @@
+---
+- hosts: node2.example.com
+  user: root
+  tasks:
+   - name: command modeule
+     command: "{{ item }}"
+     with_items:
+        - ls /var
+        - df -h
+       
