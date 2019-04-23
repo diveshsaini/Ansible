@@ -1,0 +1,23 @@
+---
+    - hosts: node2.example.com
+      user: root
+      tasks:
+       - name: creating group
+         group: 
+           name: devops
+           state: present
+       - name: adding user to group
+         user: 
+           name: kitty
+           state: present
+           group: devops 
+         
+       - name: providing acls
+         acl:
+            path: /var/www/html/index.html
+            entity: shivansh
+            etype: user
+            permissions: rw
+            state: present 
+          
+          

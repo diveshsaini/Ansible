@@ -1,0 +1,34 @@
+---
+     - hosts: shivam.example.com
+       user: root
+       tasks: 
+        - name: vgcreate
+          lvg:
+            vg: vgdata
+            pvs: /dev/sdb5,/dev/sdb6
+
+        - name: lvcreate
+          lvol:
+           vg: vgdata
+           lv: pool
+           size: 1500M
+        - name: create filesystem
+          filesystem:
+            fstype: xfs
+            dev: /dev/vgdata/pool
+        - name: mount lvm
+          mount:
+            name: /server
+            src: /dev/vgdata/pool
+            fstype: xfs
+            state: mounted
+         
+        - name: extend lvm
+          lvol:
+           vg: vgdata
+           lv: pool
+           size: 2000M
+           resizefs: true
+        
+      
+                 

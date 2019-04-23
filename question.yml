@@ -1,0 +1,16 @@
+---
+- hosts: node2.example.com
+  user: root
+  tasks:
+   - name: ppppppppppppp
+     shell: ls /var |grep ftp
+     register: data
+     
+
+   - name: matching the variable
+     debug:
+        msg: "data exixst"
+     when: data.stdout == 'ftp'
+     
+
+

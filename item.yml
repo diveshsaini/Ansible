@@ -1,0 +1,11 @@
+---
+- hosts: node2.example.com
+  user: root
+  tasks:
+  - name: install some packages
+    yum: pkg={{ item }} state=installed
+    with_items:
+        - samba
+        - samba-common
+        - samba-client
+        - cifs-utils

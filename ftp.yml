@@ -1,0 +1,18 @@
+---
+    - hosts: shivam.example.com
+      user: root
+      tasks:
+       - name: installing ftp server
+         yum:
+          name: vsftpd
+          state: present
+       - name: starting service
+         service:
+           name: vsftpd
+           state: started
+           enabled: yes   
+       - name: sharing file using ftp
+         copy:
+           src: /root/ansibletest/index.html
+           dest: /var/ftp/pub
+     
